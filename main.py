@@ -17,7 +17,8 @@ class ModelName(str, Enum):
 class Item(BaseModel):
     name: str
     price: float
-    is_offer: bool = False
+    tax: Optional[float] = None
+    description: Optional[str] = None
 
 
 @app.get("/")
