@@ -7,7 +7,7 @@ authors = ["w40141 <w.40141@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.9"
 fastapi = "^0.71.0"
-uvicorn = "^0.17.0"
+uvicorn = {extras = ["standard"], version = "^0.17.0"}
 
 [tool.poetry.dev-dependencies]
 
