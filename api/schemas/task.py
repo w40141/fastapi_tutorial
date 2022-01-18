@@ -3,8 +3,6 @@ from pydantic import BaseModel, Field
 
 
 class TaskBase(BaseModel):
-    """TaskBase"""
-
     title: Optional[str] = Field(None, example="クリーニングを取りに行く")
 
 
