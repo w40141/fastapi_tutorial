@@ -4,8 +4,10 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /src
 
-# pipを使ってpoetryをインストール
-RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=/opt/poetry python3 - && \
+    cd /usr/local/bin && \
+    ln -s /opt/poetry/bin/poetry && \
+    poetry config virtualenvs.create false
 # RUN pip install poetry
 
 # poetryの定義ファイルをコピー (存在する場合)
