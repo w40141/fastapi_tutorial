@@ -1,4 +1,3 @@
-from typing import Dict, List, Union
 from fastapi import APIRouter, Depends
 
 import api.schemas.user as user_schema
@@ -12,6 +11,6 @@ async def read_users_me(current_user: user_schema.User = Depends(get_current_act
     return current_user
 
 
-@router.get("/users/me/items", response_model=List[Dict[str, Union[str, user_schema.User]]])
+@router.get("/users/me/items")
 async def read_own_items(current_user: user_schema.User = Depends(get_current_active_user)):
     return [{"item_id": "Foo", "owner": current_user.username}]
