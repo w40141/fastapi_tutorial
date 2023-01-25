@@ -1,23 +1,38 @@
 version: '3'
 services:
-  demo-app:
-    build: .
-    volumes:
-      - .dockervenv:/src/.venv
-      - .:/src
-    ports:
-      - 8000:8000  # ホストマシンのポート8000を、docker内のポート8000に接続する
   db:
     image: mysql:8.0
-    platform: linux/x86_64  # M1 Macの場合必要
+    container_name: "mysql"
+    # M1 Macの場合必要
+    platform: linux/amd64
     environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'  # rootアカウントをパスワードなしで作成
-      MYSQL_DATABASE: 'demo'  # 初期データベースとしてdemoを設定
-      TZ: 'Asia/Tokyo'  # タイムゾーンを日本時間に設定
+      # MYSQL_USER: user
+      # MYSQL_PASSWORD: root
+      # MYSQL_ROOT_PASSWORD: root
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_DATABASE: 'demo'
+      TZ: Asia/Tokyo
+    # env_file:
+    #   - .env.development
     volumes:
       - mysql_data:/var/lib/mysql
-    command: --default-authentication-plugin=mysql_native_password  # MySQL8.0ではデフォルトが"caching_sha2_password"で、ドライバが非対応のため変更
     ports:
-      - 33306:3306  # ホストマシンのポート33306を、docker内のポート3306に接続する
+      - 3306:3306
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+    volumes:
+      - ./api:/src/api
+      - ./scripts:/src/scripts
+    ports:
+      - 8080:8000
+    depends_on:
+      - db
+    # env_file:
+    #   - .env.development
+    working_dir: /src/scripts
+    command: bash -c "./run.sh"
 volumes:
   mysql_data:
