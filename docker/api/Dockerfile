@@ -2,6 +2,11 @@
 FROM python:3.9-buster
 ENV PYTHONUNBUFFERED=1
 
+RUN apt update \
+    && apt install -y default-mysql-client \
+    && apt install --no-install-recommends -y tzdata \
+    && apt clean
+
 WORKDIR /src
 
 RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=/opt/poetry python3 - && \

@@ -5,19 +5,19 @@ services:
     container_name: "mysql"
     # M1 Macの場合必要
     platform: linux/amd64
+    build:
+      context: .
+      dockerfile: ./docker/mysql/Dockerfile
     environment:
-      # MYSQL_USER: user
-      # MYSQL_PASSWORD: root
-      # MYSQL_ROOT_PASSWORD: root
-      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-      MYSQL_DATABASE: 'demo'
-      TZ: Asia/Tokyo
-    # env_file:
-    #   - .env.development
+      APP_ENV: "development"
+    env_file:
+      - .env.development
     volumes:
+      - ./log/db:/var/log/mysql
       - mysql_data:/var/lib/mysql
     ports:
       - 3306:3306
+    command: --default-authentication-plugin=mysql_native_password
   api:
     container_name: api
     build:
@@ -30,8 +30,10 @@ services:
       - 8080:8000
     depends_on:
       - db
-    # env_file:
-    #   - .env.development
+    environment:
+      APP_ENV: "development"
+    env_file:
+      - .env.development
     working_dir: /src/scripts
     command: bash -c "./run.sh"
 volumes:

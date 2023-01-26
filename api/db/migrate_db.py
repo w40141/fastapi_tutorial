@@ -4,14 +4,20 @@ from sqlalchemy import create_engine
 
 from api.models.task import Base
 
-DB_PASSWORD = os.environ.get("MYSQL_PASSWORD")
-DB_HOST = os.environ.get("MYSQL_HOST")
-DB_PORT = os.environ.get("MYSQL_PORT")
-DB_NAME = os.environ.get("MYSQL_DATABASE")
+APP_ENV = os.environ.get('APP_ENV')
 
-# TODO: パスワードなどの埋め込み
-DB_URL = "mysql+pymysql://root@db:3306/demo?charset=utf8"
-# DB_URL = "mysql+pymysql://root:root@db:3306/demo?charset=utf8"
+DB_USER = os.environ.get('MYSQL_USER')
+DB_PASSWORD = os.environ.get('MYSQL_PASSWORD')
+DB_HOST = os.environ.get('MYSQL_HOST')
+DB_NAME = os.environ.get('MYSQL_DATABASE')
+
+DB_URL = 'mysql+pymysql://%s:%s@%s/%s?charset=utf8' % (
+    DB_USER,
+    DB_PASSWORD,
+    DB_HOST,
+    DB_NAME,
+)
+print(DB_URL)
 engine = create_engine(DB_URL, echo=True)
 
 
