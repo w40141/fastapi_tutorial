@@ -25,7 +25,7 @@ jobs:
         run: poetry run autoflake -r --in-place --remove-all-unused-imports --ignore-init-module-imports
           --remove-unused-variables .
       - name: isort
-        run: poetry isort .
+        run: poetry run isort .
       - name: Run Test
         run: poetry run pytest --asyncio-mode=strict
       - uses: stefanzweifel/git-auto-commit-action@v4
