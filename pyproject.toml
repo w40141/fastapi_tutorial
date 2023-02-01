@@ -33,10 +33,10 @@ known_third_party = ["fastapi", "pydantic", "starlette"]
 
 [tool.black]
 target-version = ['py39']
-line-length = 120
+line-length = 100
 
 [tool.flake8]
-max-line-length = 120
+max-line-length = 100
 max-complexity = 10
 ignore = "E203,E501,W503,W504"
 select = "B,C,E,F,W,T4,B9"
