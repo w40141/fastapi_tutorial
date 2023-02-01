@@ -1,4 +1,5 @@
 from typing import Optional
+
 from pydantic import BaseModel, Field
 
 
@@ -15,6 +16,7 @@ class TaskCreateResponse(TaskCreate):
 
     class Config:
         orm_mode = True
+
 
 class Task(TaskBase):
     id: int
