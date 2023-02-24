@@ -1,20 +1,23 @@
-from httpx import AsyncClient
 import pytest
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+import pytest_asyncio
+import starlette.status
+from httpx import AsyncClient
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
+
 from api.db.db import Base, get_db
 from api.main import app
-
-import starlette.status
 
 ASYNC_DB_URL = "sqlite+aiosqlite:///:memory:"
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def async_client() -> AsyncClient:
     # Async用のengineとsessionを作成
     async_engine = create_async_engine(ASYNC_DB_URL, echo=True)
-    async_session = sessionmaker(autocommit=False, autoflush=False, bind=async_engine, class_=AsyncSession)
+    async_session = sessionmaker(
+        autocommit=False, autoflush=False, bind=async_engine, class_=AsyncSession
+    )
 
     # テスト用にオンメモリのSQLiteテーブルを初期化（関数ごとにリセット）
     async with async_engine.begin() as conn:

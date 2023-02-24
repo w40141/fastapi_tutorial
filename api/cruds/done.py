@@ -1,8 +1,8 @@
 from typing import Optional, Tuple
 
+from sqlalchemy import select
 from sqlalchemy.engine import Result
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
 
 import api.models.task as task_model
 

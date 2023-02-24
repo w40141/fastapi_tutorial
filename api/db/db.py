@@ -18,7 +18,9 @@ ASYNC_DB_URL = "mysql+aiomysql://%s:%s@%s/%s?charset=utf8" % (
     DB_NAME,
 )
 async_engine = create_async_engine(ASYNC_DB_URL, echo=True)
-async_session = sessionmaker(autocommit=False, autoflush=False, bind=async_engine, class_=AsyncSession)
+async_session = sessionmaker(
+    autocommit=False, autoflush=False, bind=async_engine, class_=AsyncSession
+)
 
 Base = declarative_base()
 
