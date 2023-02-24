@@ -181,7 +181,6 @@ packaging = ">=22.0"
 pathspec = ">=0.9.0"
 platformdirs = ">=2"
 tomli = {version = ">=1.1.0", markers = "python_version < \"3.11\""}
-typing-extensions = {version = ">=3.10.0.0", markers = "python_version < \"3.10\""}
 
 [package.extras]
 colorama = ["colorama (>=0.4.3)"]
@@ -1451,5 +1450,5 @@ files = [
 
 [metadata]
 lock-version = "2.0"
-python-versions = "^3.9"
-content-hash = "7efea9e79fb93c5633c1fb801e777969943918f6488b7ea2deca9e98b6ed01d3"
+python-versions = "^3.10"
+content-hash = "5630bd4c00b702600a9be0e2629292a6c322c5cbc50abc0192d34a6445be6e99"

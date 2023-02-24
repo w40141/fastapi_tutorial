@@ -5,7 +5,7 @@ description = ""
 authors = ["w40141 <w.40141@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.10"
 fastapi = "^0.71.0"
 uvicorn = {extras = ["standard"], version = "^0.17.0"}
 SQLAlchemy = "^1.4.29"
@@ -32,7 +32,7 @@ profile = "black"
 known_third_party = ["fastapi", "pydantic", "starlette"]
 
 [tool.black]
-target-version = ['py39']
+target-version = ['py310']
 line-length = 100
 
 [tool.flake8]
