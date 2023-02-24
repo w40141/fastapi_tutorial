@@ -1,19 +1,24 @@
 # python3.9のイメージをダウンロード
 FROM python:3.9-buster
-ENV PYTHONUNBUFFERED=1
+ENV PYTHONUNBUFFERED=1 \
+    POETRY_HOME="/opt/poetry" \
+    POETRY_VIRTUALENVS_CREATE=false \
+    PIP_NO_CACHE_DIR=off \
+    PIP_DISABLE_PIP_VERSION_CHECK=on \
+    PIP_DEFAULT_TIMEOUT=100 
+    
+ENV PATH="$POETRY_HOME/bin:$PATH"
 
-RUN apt update \
-    && apt install -y default-mysql-client \
-    && apt install --no-install-recommends -y tzdata \
-    && apt clean
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends default-mysql-client \
+    && apt-get install -y --no-install-recommends tzdata \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /src
 
-RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=/opt/poetry python3 - && \
-	cd /usr/local/bin && \
-	ln -s /opt/poetry/bin/poetry && \
-	poetry config virtualenvs.create false && \
-	poetry config virtualenvs.in-project true
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+RUN curl -sSL https://install.python-poetry.org | python3 -
 
 COPY pyproject.toml* poetry.lock* ./
 

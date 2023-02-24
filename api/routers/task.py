@@ -1,11 +1,12 @@
 from typing import List
+
 from fastapi import APIRouter, Depends
 from fastapi.exceptions import HTTPException
-import api.schemas.task as task_schema
-import api.cruds.task as task_curd
-from api.db.db import get_db
-
 from sqlalchemy.ext.asyncio import AsyncSession
+
+import api.cruds.task as task_curd
+import api.schemas.task as task_schema
+from api.db.db import get_db
 
 router = APIRouter()
 
