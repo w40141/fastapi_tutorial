@@ -8,7 +8,7 @@ from api.db.db import get_db
 router = APIRouter()
 
 
-@router.post("/calc/{task_id}/done", response_model=done_scheme.DoneResponse)
+@router.post("/calc", response_model=done_scheme.DoneResponse)
 async def post_calc(task_id: int, db: AsyncSession = Depends(get_db)):
     done = await done_crud.get_done(db, task_id=task_id)
     if done is not None:
