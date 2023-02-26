@@ -3,8 +3,9 @@ import os
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
+# TODO: 外部変数とローカル初期値
+# DB_USER = os.environ.get("MYSQL_USER", "user")
 APP_ENV = os.environ.get("APP_ENV")
-
 DB_USER = os.environ.get("MYSQL_USER")
 DB_PASSWORD = os.environ.get("MYSQL_PASSWORD")
 DB_HOST = os.environ.get("MYSQL_HOST")

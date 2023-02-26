@@ -23,8 +23,12 @@ fake_users_db = {
 
 
 @router.post("/token", response_model=token_schema.Token)
-async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
-    user = authenticate_user(fake_users_db, form_data.username, form_data.password)
+async def login_for_access_token(
+    form_data: OAuth2PasswordRequestForm = Depends(),
+):
+    user = authenticate_user(
+        fake_users_db, form_data.username, form_data.password
+    )
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

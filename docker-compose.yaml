@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 services:
   db:
     image: mysql:8.0
@@ -30,11 +30,45 @@ services:
       - 8080:8000
     depends_on:
       - db
+      - worker
+      - dashboard
     environment:
       APP_ENV: "development"
     env_file:
       - .env.development
     working_dir: /src/scripts
     command: bash -c "./run.sh"
+  worker:
+    build:
+      context: .
+      dockerfile: ./docker/worker/Dockerfile
+    depends_on:
+      - redis
+    volumes:
+      - ./api:/root/api
+    command:
+      celery --app=api.core.celery worker --loglevel=info
+    env_file:
+      - .env.development
+  dashboard:
+    build:
+      context: .
+      dockerfile: ./docker/worker/Dockerfile
+    depends_on:
+      - redis
+    volumes:
+      - ./api:/root/api
+    command:
+      celery --app=api.core.celery flower --port=5555
+    ports:
+      - 5556:5555
+    env_file:
+      - .env.development
+  redis:
+    image: redis:latest
+    volumes:
+      - celery_app:/data
 volumes:
   mysql_data:
+  celery_app:
+    driver: local

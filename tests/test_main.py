@@ -16,7 +16,10 @@ async def async_client() -> AsyncClient:
     # Async用のengineとsessionを作成
     async_engine = create_async_engine(ASYNC_DB_URL, echo=True)
     async_session = sessionmaker(
-        autocommit=False, autoflush=False, bind=async_engine, class_=AsyncSession
+        autocommit=False,
+        autoflush=False,
+        bind=async_engine,
+        class_=AsyncSession,
     )
 
     # テスト用にオンメモリのSQLiteテーブルを初期化（関数ごとにリセット）

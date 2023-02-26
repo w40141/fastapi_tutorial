@@ -13,6 +13,8 @@ aiomysql = "^0.0.22"
 python-multipart = "^0.0.5"
 python-jose = {extras = ["cryptography"], version = "^3.3.0"}
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+flower = "^1.2.0"
+celery = {version = "^5.2.7", extras = ["redis"]}
 
 [tool.poetry.group.dev.dependencies]
 autoflake = "^2.0.1"
@@ -33,10 +35,10 @@ known_third_party = ["fastapi", "pydantic", "starlette"]
 
 [tool.black]
 target-version = ['py310']
-line-length = 100
+line-length = 80
 
 [tool.flake8]
-max-line-length = 100
+max-line-length = 80
 max-complexity = 10
 ignore = "E203,E501,W503,W504"
 select = "B,C,E,F,W,T4,B9"

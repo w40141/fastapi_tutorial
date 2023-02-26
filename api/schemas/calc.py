@@ -1,14 +1,14 @@
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
-class CalcBase(BaseModel):
-    title: Optional[str] = Field(None, example="クリーニングを取りに行く")
+class CalcStatus(BaseModel):
+    id: str
+    status: Optional[str] = None
+    result: Optional[float] = None
 
 
-class Tryangle(BaseModel):
+class Sides(BaseModel):
     x: int
     y: int
-
-

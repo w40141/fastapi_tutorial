@@ -1,24 +1,25 @@
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi import APIRouter
 
-import api.cruds.done as done_crud
-import api.schemas.done as done_scheme
-from api.db.db import get_db
+import api.schemas.calc as calc_scheme
+from api.core.celery import celery, pythagorean_theorem
 
 router = APIRouter()
 
 
-@router.post("/calc", response_model=done_scheme.DoneResponse)
-async def post_calc(task_id: int, db: AsyncSession = Depends(get_db)):
-    done = await done_crud.get_done(db, task_id=task_id)
-    if done is not None:
-        raise HTTPException(status_code=400, detail="Done already exists")
-    return await done_crud.create_done(db, task_id=task_id)
+@router.post(
+    "/calc",
+    response_model=calc_scheme.CalcStatus,
+    response_model_exclude_unset=True,
+)
+async def post_calc(sides: calc_scheme.Sides):
+    task = pythagorean_theorem.delay(x=sides.x, y=sides.y)
+    return calc_scheme.CalcStatus(id=task.id)
 
 
-@router.get("/calc/{calc_id}", response_model=None)
-async def unmark_task_as_done(task_id: int, db: AsyncSession = Depends(get_db)):
-    done = await done_crud.get_done(db, task_id=task_id)
-    if done is None:
-        raise HTTPException(status_code=404, detail="Done already exists")
-    return await done_crud.delete_done(db, original=done)
+@router.get("/calc/{calc_id}", response_model=calc_scheme.CalcStatus)
+async def get_result(calc_id: str):
+    result = celery.AsyncResult(calc_id)
+    status = calc_scheme.CalcStatus(
+        id=calc_id, status=result.status, result=result.result
+    )
+    return status
