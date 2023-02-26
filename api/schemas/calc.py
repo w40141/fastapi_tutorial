@@ -10,5 +10,3 @@ class CalcBase(BaseModel):
 class Tryangle(BaseModel):
     x: int
     y: int
-
-
